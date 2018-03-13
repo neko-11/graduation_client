@@ -1,0 +1,19 @@
+.tittle{
+  font-size: 16px;
+  border-left: 4px solid #1da57a;
+  padding: 0 0 0 10px;
+  margin-bottom: 40px;
+}
+
+.from_box{
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 100px;
+  :global(.ant-form-item-label){
+      text-align: left;
+  }
+  .submitbtnBox{
+    text-align: center;
+    padding-top: 100px;
+  }
+}

@@ -1,0 +1,11 @@
+.from_box{
+  position: relative;
+  :global(.ant-form-item-label){
+    text-align: left;
+  }
+  .submitbtn{
+    position: absolute;
+    bottom: -91px;
+    right: -8px;
+  }
+}

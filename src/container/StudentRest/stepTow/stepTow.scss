@@ -1,0 +1,15 @@
+.uploadbox{
+  text-align: center;
+  padding:100px 0;
+  :global(.avatar-uploader){
+    display: inline-block;
+    :global(.ant-upload ){
+      width: 300px;
+      height: 300px;
+    }
+  }
+  .btnbox{
+    text-align: center;
+    margin-top: 20px;
+  }
+}
