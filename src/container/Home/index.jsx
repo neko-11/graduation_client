@@ -5,6 +5,7 @@ const { Content, Sider } = Layout;
 import BaseComponent from 'Utils/BaseComponent.jsx'
 import style from './home.scss'
 import Foot from 'PubCom/footer'
+import { Menu, Dropdown, Icon } from 'antd';
 import LeftMenu from 'PubCom/LeftMenu'
 import { Route , Link} from 'react-router-dom'
 import {AsyncComponent} from 'Utils/asyncComponent.jsx'
@@ -35,6 +36,11 @@ class Home extends BaseComponent {
             data: this.state.data.update('collapsed', () => collapsed)
         });
     };
+
+    clearUserName = ()=>{
+        sessionStorage.clear();
+        this.props.history.replace('/Login');
+    }
 
 
     render() {
@@ -70,6 +76,15 @@ class Home extends BaseComponent {
             </Breadcrumb.Item>
         )].concat(extraBreadcrumbItems);
 
+        const menu = (
+            <Menu>
+                <Menu.Item>
+                    <a target="_blank" rel="noopener noreferrer" onClick={this.clearUserName} >退出登陆</a>
+                </Menu.Item>
+
+            </Menu>
+        );
+
         return (
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider
@@ -95,6 +110,12 @@ class Home extends BaseComponent {
                         {/*面包屑*/}
                         <Breadcrumb separator=">" className={style.Breadcrumb}>
                             {breadcrumbItems}
+
+                            <Dropdown overlay={menu} trigger={['click']}>
+                                <a className="ant-dropdown-link" href="#">
+                                    {sessionStorage.getItem('userName')}<Icon type="down" />
+                                </a>
+                            </Dropdown>
                         </Breadcrumb>
 
                         {/*正文*/}

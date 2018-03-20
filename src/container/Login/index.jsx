@@ -6,7 +6,7 @@ const FormItem = Form.Item;
 import { Link , withRouter } from 'react-router-dom'
 import { Map } from 'immutable';
 //引入组件sass
-import { AsyncPost } from 'Utils/utils';
+import { ajax_method } from 'Utils/utils';
 import style from './login.scss'
 //引用，不要签名的发起请求方式，写入cookie的util，还有需要签名的请求
 //import { NotSigAsyncPost , fExportSetCookieMes ,AsyncPost} from 'Utils/utils';
@@ -24,7 +24,6 @@ class Login extends Component {
         };
     }
 
-
     componentDidMount(){
         let video = document.getElementById('video');
         let vendorUrl = window.URL || window.webkitURL;
@@ -38,7 +37,7 @@ class Login extends Component {
             video: true, //使用摄像头对象
             audio: false  //不适用音频
         }, function(strem){
-            console.log(strem);
+            //console.log(strem);
             video.src = vendorUrl.createObjectURL(strem);
             video.play();
         }, function(error) {
@@ -166,40 +165,7 @@ class Login extends Component {
 
     };
 
-
     //提交登录信息
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                this.setState({
-                    data:this.state.data.update('loginflag',()=>true)
-                },()=>{
-                    AsyncPost('/api/v1/education/User/checkLogin',{
-                        userName:values.userName,
-                        userPassword: values.password
-                    },'post',(data)=>{
-                        if (data.code === 0 ){
-                            this.setState({
-                                data:this.state.data.update('loginflag',()=>false)
-                            },()=>{
-                                message.success('登录成功！');
-                                this.props.history.replace('/home');
-                                sessionStorage.setItem("userName", values.userName);
-                            });
-                        }else if (data.code === 1){
-                            this.setState({
-                                data:this.state.data.update('loginflag',()=>false)
-                            },()=>{
-                                message.error('用户名或者密码错误！')
-                            })
-                        }
-                    });
-                });
-            }
-        });
-    };
-
     saveImg=()=>{
         let canvas = document.getElementById('canvas');
         let img = document.getElementById('img');
@@ -208,13 +174,25 @@ class Login extends Component {
 
         //把canvas图像转为img图片
         //img.src = canvas.toDataURL("image/png");
-        console.log(canvas.toDataURL("image/png"));
+        /*let image = new Image();
+        image.src = canvas.toDataURL("image/png");
+        console.log(image);*/
+        let formData = new URLSearchParams();
+        //formData.append("image",this.convertBase64UrlToBlob(canvas.toDataURL("image/png")));
+        formData.append("image",canvas.toDataURL("image/png"));
+        ajax_method('/api/v1/cn/edu/ahut/user/login',formData,'post',(data)=>{
+            data = JSON.parse(data);
+            if (data.code === 0 ){
+                message.success('登录成功！');
+                this.props.history.replace('/home');
+                sessionStorage.setItem("userName", data.result);
+            }else if (data.code === 1){
+                message.warning(data.message);
+            }
+        });
     };
 
-
-
     render() {
-        const { getFieldDecorator } = this.props.form;
         return (
             <div className={style.big_wrap}>
                 <div className={style.login_wrap}>
@@ -225,37 +203,8 @@ class Login extends Component {
                                 <div className = {style.img_wrap}>
                                     <img src={require('./img/logo.png')} className={style.img_width}/>
                                 </div>
-                                {/*<Form onSubmit={this.handleSubmit} className={style.login_form}>
-                                    邮箱账号
-                                    <FormItem>
-                                        {getFieldDecorator('userName', {
-                                            rules: [{
-                                            },{ required: true, message: '请输入您的账号 !',whitespace: true }],
-                                        })(
-                                            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="账号" />
-                                        )}
-                                    </FormItem>
-                                    密码框
-                                    <FormItem>
-                                        {getFieldDecorator('password', {
-                                            rules: [{ required: true, message: '请输入您的密码 !' }],
-                                        })(
-                                            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="密码" />
-                                        )}
-                                    </FormItem>
-                                    登录按钮
-                                    <FormItem>
-                                        <Tooltip title="请联系管理员">
-                                            <a className={style.login_form_forgot}>忘记密码？</a>
-                                        </Tooltip>
-                                        <Button loading={this.state.data.get('loginflag')} type="primary" htmlType="submit" className={style.login_form_button}>
-                                            登 录
-                                        </Button>
-                                        <span>或者 </span><a href="javascript:void(0)" onClick={() => this.resign(true)}>现在注册</a>
-                                    </FormItem>
-                                </Form>*/}
                                 <video id="video" width="400" height="300"></video>
-                                <button onClick={this.saveImg}>拍照</button>
+                                <Button onClick={this.saveImg}>拍照</Button>
                                 <canvas id='canvas' width='400' height='300'></canvas>
                                 {/* <img id='img' src=''></img> */}
                             </div> 
