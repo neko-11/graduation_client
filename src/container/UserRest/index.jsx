@@ -41,10 +41,10 @@ class StudentRest extends BaseComponent {
     render() {
         const current  = this.state.data.get('current');
         const steps = [{
-            title: '填写学生信息',
+            title: '填写员工信息',
             content: <StepOne  next = {this.next}/>
         }, {
-            title: '上传学生头像',
+            title: '上传员工头像',
             content: <StepTow  next = {this.next} />
         }, {
             title: '注册完成',
@@ -52,7 +52,7 @@ class StudentRest extends BaseComponent {
         }];
         return (
             <div>
-                <h3 className={style.tittle}>上传学生信息</h3>
+                <h3 className={style.tittle}>上传员工信息</h3>
                 <Steps current={current}>
                     {steps.map(item => <Step key={item.title} title={item.title} />)}
                 </Steps>

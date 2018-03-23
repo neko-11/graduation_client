@@ -104,7 +104,7 @@ class stepTow extends BaseComponent {
                     onChange={this.handleChange}
                     data = {
                         {
-                            studentId:this.props.chageStudentId.getIn(['data'])
+                            studentId:this.props.changeUserId.getIn(['data'])
                         }
                     }
                 >
@@ -126,7 +126,7 @@ class stepTow extends BaseComponent {
 
 export default connect((state) => {
     return {
-        chageStudentId: state.getIn(['chageStudentId'])
+        changeUserId: state.getIn(['changeUserId'])
     }
 })(stepTow)
 
