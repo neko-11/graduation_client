@@ -39,8 +39,8 @@ class Home extends BaseComponent {
 
     clearUserName = ()=>{
         sessionStorage.clear();
-        this.props.history.replace('/Login');
-    }
+        this.props.history.replace('/')
+    };
 
 
     render() {
@@ -81,7 +81,6 @@ class Home extends BaseComponent {
                 <Menu.Item>
                     <a target="_blank" rel="noopener noreferrer" onClick={this.clearUserName} >退出登陆</a>
                 </Menu.Item>
-
             </Menu>
         );
 

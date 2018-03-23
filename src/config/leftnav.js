@@ -9,14 +9,14 @@ const leftNav = [
         child:[
             {
                 path:'/home',
-                component:'StudentRest',
-                name:'学生注册',
+                component:'UserRest',
+                name:'员工注册',
                 Icon:"usergroup-add"
             },
             {
                 path:'/home/list',
-                component:'StudentList',
-                name:'学生列表',
+                component:'UserList',
+                name:'员工列表',
                 Icon:"smile"
             }
         ]

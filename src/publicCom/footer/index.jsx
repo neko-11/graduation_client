@@ -12,7 +12,7 @@ class Foot extends BaseComponent {
     render() {
         return (
             <Footer style={{ textAlign: 'center' }}>
-                安徽工业大学 ©2018 Created by Zhushuangfei
+                安徽工业大学 息141 ©2018 Created by 朱双飞
             </Footer>
         )
 

@@ -7,13 +7,13 @@ import { Link , withRouter } from 'react-router-dom'
 import { Map } from 'immutable';
 //引入组件sass
 import { ajax_method } from 'Utils/utils';
-import style from './login.scss'
+import style from './sign.scss'
 //引用，不要签名的发起请求方式，写入cookie的util，还有需要签名的请求
 //import { NotSigAsyncPost , fExportSetCookieMes ,AsyncPost} from 'Utils/utils';
 //粒子动画库
 import 'particles.js'
 
-class Login extends Component {
+class Sign extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -35,7 +35,7 @@ class Login extends Component {
             navigator.msGetUserMedia;
         navigator.getMedia({
             video: true, //使用摄像头对象
-            audio: false  //不适用音频
+            audio: false  //不使用音频
         }, function(strem){
             //console.log(strem);
             video.src = vendorUrl.createObjectURL(strem);
@@ -44,11 +44,6 @@ class Login extends Component {
             //error.code
             console.log(error);
         });
-
-        //重定向防止重复登录
-        if (sessionStorage.getItem("userName")){
-            this.props.history.replace('/home');
-        }
 
         //粒子运动动画
         this.particlesConfig();
@@ -165,24 +160,22 @@ class Login extends Component {
 
     };
 
-    //提交登录信息
+    //提交签到信息
     saveImg=()=>{
         let canvas = document.getElementById('canvas');
         let img = document.getElementById('img');
         //绘制canvas图形
         canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
 
-        //把canvas图像转为img图片
         let formData = new URLSearchParams();
         formData.append("image",canvas.toDataURL("image/png"));
-        ajax_method('/api/v1/cn/edu/ahut/user/login',formData,'post',(data)=>{
+        ajax_method('/api/v1/cn/edu/ahut/record/saveRecord',formData,'POST',(data)=>{
             data = JSON.parse(data);
+            console.log(data);
             if (data.code === 0 ){
-                message.success('登录成功！');
-                sessionStorage.setItem("userName", data.result);
-                this.props.history.replace('/isLogin');
+
             }else if (data.code === 1){
-                message.warning(data.message);
+
             }
         });
     };
@@ -190,7 +183,7 @@ class Login extends Component {
     render() {
         return (
             <div className={style.big_wrap}>
-                <Button onClick={()=>{this.props.history.replace('/')}}>返回签到</Button>
+                <Button onClick={()=>{this.props.history.replace('/login')}}>我是管理员</Button>
                 <div className={style.login_wrap}>
                     <Row type="flex" className={style.row}>
                         <Col xs={2} sm={6} md={9} className={style.flexbox}></Col>
@@ -202,8 +195,7 @@ class Login extends Component {
                                 <video id="video" width="400" height="300"></video>
                                 <Button onClick={this.saveImg}>拍照</Button>
                                 <canvas id='canvas' width='400' height='300'></canvas>
-                                {/* <img id='img' src=''></img> */}
-                            </div> 
+                            </div>
                         </Col>
                         <Col xs={2} sm={6} md={9} className={style.flexbox}></Col>
                     </Row>
@@ -215,6 +207,6 @@ class Login extends Component {
     }
 }
 
-const WrappedNormalLoginForm = Form.create()(Login);
+const WrappedNormalLoginForm1 = Form.create()(Sign);
 
-export default withRouter(WrappedNormalLoginForm);
+export default withRouter(WrappedNormalLoginForm1);

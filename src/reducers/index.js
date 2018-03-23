@@ -1,7 +1,7 @@
 
 import { chageResult } from 'RAndA/leftnav'
-import { chageStudentId } from 'RAndA/StudentId'
+import { changeUserId } from 'RAndA/UserId'
 export default {
     chageResult,
-    chageStudentId
+    changeUserId
 };
