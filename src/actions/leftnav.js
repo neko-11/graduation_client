@@ -17,7 +17,7 @@ const initialState = Immutable.Map({
     data : '/home'
 });
 
-export const chageResult =  (state = initialState, action) => {
+export const changeResult =  (state = initialState, action) => {
     switch (action.type) {
         case CHANGEDATA:
             return Immutable.Map({

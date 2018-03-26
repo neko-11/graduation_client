@@ -13,7 +13,7 @@ import { Steps, Button, message } from 'antd';
 import {Map} from 'immutable'
 const Step = Steps.Step;
 import StepOne from './stepOne'
-import StepTow from './stepTow'
+import StepTwo from './stepTwo'
 import StepThree from './stepThree'
 
 class StudentRest extends BaseComponent {
@@ -45,7 +45,7 @@ class StudentRest extends BaseComponent {
             content: <StepOne  next = {this.next}/>
         }, {
             title: '上传员工头像',
-            content: <StepTow  next = {this.next} />
+            content: <StepTwo  next = {this.next} />
         }, {
             title: '注册完成',
             content: <StepThree next = {this.init} />

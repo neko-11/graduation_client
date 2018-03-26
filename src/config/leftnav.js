@@ -2,38 +2,47 @@
  * Created by 70469 on 2017/12/22.
  * 左侧导航配置
  */
-const leftNav = [
+const leftconfig = [
     {
-        name:'注册',
-        Icon:"solution",
-        child:[
+        name: '考勤记录',
+        Icon: "form",
+        child: [
             {
-                path:'/home',
-                component:'UserRest',
-                name:'员工注册',
-                Icon:"usergroup-add"
-            },
-            {
-                path:'/home/list',
-                component:'UserList',
-                name:'员工列表',
-                Icon:"smile"
+                path: '/home/RecordList',
+                component: 'RecordList',
+                name: '记录列表',
+                Icon: "profile"
             }
         ]
-    },
-    {
-        name:'图片识别',
-        Icon:"search",
-        child:[
+    }, {
+        name: '员工管理',
+        Icon: "form",
+        child: [
             {
-                path:'/home/updateImg',
-                component:'updateImg',
-                name:'上传图片',
-                Icon:"file-jpg"
+                path: '/home/UserList',
+                component: 'UserList',
+                name: '员工列表',
+                Icon: "profile"
+            },
+            {
+                path: '/home/UserRest',
+                component: 'UserRest',
+                name: '员工注册',
+                Icon: "usergroup-add"
+            }
+        ]
+    }, {
+        name: '部门管理',
+        Icon: "form",
+        child: [
+            {
+                path: '/home/DepartmentList',
+                component: 'DepartmentList',
+                name: '部门列表',
+                Icon: "profile"
             }
         ]
     }
-
 ];
 
-export default leftNav;
+export default leftconfig;

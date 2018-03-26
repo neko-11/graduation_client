@@ -19,7 +19,7 @@ class isLogin extends BaseComponent {
 
     componentDidMount(){
         if (sessionStorage.getItem("userName")){
-            this.props.history.replace('/home')
+            this.props.history.replace('/home/RecordList')
         }else{
             this.props.history.replace('/login')
         }

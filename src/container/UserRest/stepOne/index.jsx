@@ -44,15 +44,20 @@ class stepOne extends BaseComponent {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
+            let para = {
+                userName: values.userName,
+                userCode: values.userCode,
+                departmentName: values.departmentName,
+                role: values.role,
+            };
             if (!err) {
-                AsyncPost('/api/v1/cn/edu/ahut/user/saveUser', {
-                    userName: values.userName,
-                    userCode: values.userCode,
-                    departmentName: values.departmentName,
-                    role: values.role,
-                }, 'post', (data) => {
-                    this.props.dispatch(change(data.userId));
-                    this.props.next()
+                AsyncPost('/api/v1/cn/edu/ahut/user/saveUser', para, 'post', (data) => {
+                    if(data.code == 0){
+                        this.props.dispatch(change(data.result));
+                        this.props.next()
+                    }else{
+                        message.warning(data.message);
+                    }
                 });
             }
         });
@@ -78,12 +83,12 @@ class stepOne extends BaseComponent {
                             {...formItemLayout}
                             label="选择部门"
                         >
-                            {getFieldDecorator('selectDepartment', {
+                            {getFieldDecorator('departmentName', {
                                 rules: [
-                                    {required: true, message: '请选择您的部门 !'},
+                                    {required: true, message: '请选择所属部门 !'},
                                 ],
                             })(
-                                <Select placeholder="请选择您的部门">
+                                <Select placeholder="请选择所属部门">
                                     {
                                         this.state.data.get('departmentList').map((data, index) => {
                                             return (

@@ -31,7 +31,7 @@ class LeftMenu extends BaseComponent {
         //添加redux
         this.props.dispatch(change(e.key));
         //改变路由
-        this.props.history.push(e.key)
+        this.props.history.push(e.key);
     };
 
     render() {
@@ -40,7 +40,7 @@ class LeftMenu extends BaseComponent {
                   mode="inline"
                   onClick={this.handleClick}
                   selectedKeys = {[this.props.changeResult.getIn(['data'])]}
-                  defaultOpenKeys={['注册','图片识别']}
+                  defaultOpenKeys={['员工管理','部门管理','考勤记录']}
             >
                 {
                     leftconfig.map((data)=>{
@@ -79,6 +79,6 @@ class LeftMenu extends BaseComponent {
 
 export default connect((state) => {
     return {
-        changeResult: state.getIn(['chageResult'])
+        changeResult: state.getIn(['changeResult'])
     }
 })(LeftMenu)

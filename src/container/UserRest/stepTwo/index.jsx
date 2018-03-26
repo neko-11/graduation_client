@@ -8,12 +8,12 @@
 
 import React,{Component} from 'react';
 import BaseComponent from 'Utils/BaseComponent.jsx'
-import style from './stepTow.scss'
+import style from './stepTwo.scss'
 import { Upload, Icon ,message ,Button } from 'antd';
 import {Map} from 'immutable'
 import { connect } from 'react-redux'
 import * as apiConfig from 'Utils/apiConfig'
-class stepTow extends BaseComponent {
+class stepTwo extends BaseComponent {
 
     constructor(props) {
         super(props);
@@ -26,12 +26,15 @@ class stepTow extends BaseComponent {
         }
     }
 
+    componentDidMount() {
+        console.log(this.props.changeUserId.getIn(['data']));
+    }
 
     //图片上传验证
     beforeUpload = (file)=> {
-        const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png'  || file.type === 'image/webp');
+        const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
         if (!isJPG) {
-            message.error('你只能上传JPG或者png或者webp文件!');
+            message.error('你只能上传JPG或者png文件!');
         }
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) {
@@ -95,16 +98,16 @@ class stepTow extends BaseComponent {
         return (
             <div className={style.uploadbox}>
                 <Upload
-                    name="studentImg"
+                    name="image"
                     listType="picture-card"
                     className="avatar-uploader"
                     showUploadList={false}
-                    action={`${apiConfig.HOST}/api/v1/education/StudentInfo/updateImg`}
+                    action={`${apiConfig.HOST}/api/v1/cn/edu/ahut/user/updateImage`}
                     beforeUpload={this.beforeUpload}
                     onChange={this.handleChange}
                     data = {
                         {
-                            studentId:this.props.changeUserId.getIn(['data'])
+                            id:this.props.changeUserId.getIn(['data'])
                         }
                     }
                 >
@@ -128,6 +131,6 @@ export default connect((state) => {
     return {
         changeUserId: state.getIn(['changeUserId'])
     }
-})(stepTow)
+})(stepTwo)
 
 
