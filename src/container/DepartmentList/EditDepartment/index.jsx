@@ -9,13 +9,12 @@
 import React from 'react';
 import {Map} from 'immutable';
 import BaseComponent from 'Utils/BaseComponent.jsx'
-import {Select, Form, Input, Icon, message, Button} from 'antd';
+import {Form, Input, Icon, message, Button} from 'antd';
 
 const FormItem = Form.Item;
 import style from './EditDepartment.scss'
 import {AsyncPost} from 'Utils/utils'
 
-const Option = Select.Option;
 
 class EditDepartment extends BaseComponent {
 
@@ -84,8 +83,7 @@ class EditDepartment extends BaseComponent {
                         rules: [{
                             required: true,
                             message: '请输入部门名称',
-                            whitespace: true,
-                            defaultValue: this.props.editMessage.departmentName
+                            whitespace: true
                         }],
                     })(
                         <Input placeholder="请输入部门名称"/>
@@ -96,8 +94,7 @@ class EditDepartment extends BaseComponent {
                         rules: [{
                             required: true,
                             message: '请输入部门编号',
-                            whitespace: true,
-                            defaultValue: this.props.editMessage.departmentCode
+                            whitespace: true
                         }]
                     })(
                         <Input disabled={true} placeholder="请输入部门编号"/>

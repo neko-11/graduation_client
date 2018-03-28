@@ -17,6 +17,7 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            stream: null,
             data:Map({
                 //防止重复提交的flag
                 loginflag:false,
@@ -25,8 +26,8 @@ class Login extends Component {
     }
 
     componentDidMount(){
+        let self = this;
         let video = document.getElementById('video');
-        let vendorUrl = window.URL || window.webkitURL;
 
         //媒体对象
         navigator.getMedia = navigator.getUserMedia ||
@@ -35,10 +36,13 @@ class Login extends Component {
             navigator.msGetUserMedia;
         navigator.getMedia({
             video: true, //使用摄像头对象
-            audio: false  //不适用音频
-        }, function(strem){
+            audio: false  //不使用音频
+        }, function(stream){
             //console.log(strem);
-            video.src = vendorUrl.createObjectURL(strem);
+            self.setState({
+                stream: stream
+            });
+            video.src = ( window.URL || window.webkitURL ).createObjectURL(stream);
             video.play();
         }, function(error) {
             //error.code
@@ -169,6 +173,7 @@ class Login extends Component {
     saveImg=()=>{
         let canvas = document.getElementById('canvas');
         let img = document.getElementById('img');
+        let vendorUrl = window.URL || window.webkitURL;
         //绘制canvas图形
         canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
 
@@ -180,6 +185,8 @@ class Login extends Component {
             if (data.code === 0 ){
                 message.success('登录成功！');
                 sessionStorage.setItem("userName", data.result);
+                //关闭摄像头
+                this.state.stream.getTracks()[0].stop();
                 this.props.history.replace('/isLogin');
             }else if (data.code === 1){
                 message.warning(data.message);

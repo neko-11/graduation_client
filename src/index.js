@@ -5,6 +5,7 @@ import './index.scss';
 import App from './App';
 import {Provider} from 'react-redux';
 import store from './store';
+import './moment.js'
 //
 // if(process.env.NODE_ENV == 'development'){
 //     let Mock = require('./mock').default;

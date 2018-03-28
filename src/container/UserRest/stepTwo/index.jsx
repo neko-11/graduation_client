@@ -27,7 +27,7 @@ class stepTwo extends BaseComponent {
     }
 
     componentDidMount() {
-        console.log(this.props.changeUserId.getIn(['data']));
+        //console.log(this.props.changeUserId.getIn(['data']));
     }
 
     //图片上传验证

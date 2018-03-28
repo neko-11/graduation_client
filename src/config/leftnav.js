@@ -14,7 +14,8 @@ const leftconfig = [
                 Icon: "profile"
             }
         ]
-    }, {
+    },
+    {
         name: '员工管理',
         Icon: "form",
         child: [
@@ -31,7 +32,8 @@ const leftconfig = [
                 Icon: "usergroup-add"
             }
         ]
-    }, {
+    },
+    {
         name: '部门管理',
         Icon: "form",
         child: [
@@ -40,6 +42,12 @@ const leftconfig = [
                 component: 'DepartmentList',
                 name: '部门列表',
                 Icon: "profile"
+            },
+            {
+                path: '/home/DepartmentRest',
+                component: 'DepartmentRest',
+                name: '添加部门',
+                Icon: "usergroup-add"
             }
         ]
     }

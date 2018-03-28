@@ -9,15 +9,14 @@
 import React from 'react';
 import {Map} from 'immutable';
 import BaseComponent from 'Utils/BaseComponent.jsx'
-import {Select, Form, Input, Icon, message, Button} from 'antd';
+import {Select, Form, Input, DatePicker, TimePicker, Icon, message, Button} from 'antd';
+import moment from 'moment';
 
 const FormItem = Form.Item;
-import style from './EditUser.scss'
+import style from './EditRecord.scss'
 import {AsyncPost} from 'Utils/utils'
 
-const Option = Select.Option;
-
-class EditUser extends BaseComponent {
+class EditDepartment extends BaseComponent {
 
     constructor(props) {
         super(props);
@@ -35,30 +34,18 @@ class EditUser extends BaseComponent {
     }
 
     componentDidMount() {
-
-        AsyncPost('/api/v1/cn/edu/ahut/department/listAll', {}, "get", (data) => {
-            if (data.code === 0) {
-                this.setState({
-                    data: this.state.data.update('departmentList', () => data.result)
-                });
-            }
-        });
-
         this.initFrom(this.props.editMessage)
     }
 
     initFrom = (editMessage) => {
         this.props.form.setFieldsValue(
-            {departmentName: editMessage.departmentName || '暂无'},
-        );
-        this.props.form.setFieldsValue(
             {userName: editMessage.userName || '暂无'},
         );
         this.props.form.setFieldsValue(
-            {userCode: editMessage.userCode || '暂无'}
+            {departmentName: editMessage.departmentName || '暂无'},
         );
         this.props.form.setFieldsValue(
-            {role: editMessage.role || '暂无'}
+            {arriveTime: moment(editMessage.arriveTime, 'YYYY-MM-DD HH:mm:ss')},
         );
     };
 
@@ -67,12 +54,9 @@ class EditUser extends BaseComponent {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                AsyncPost('/api/v1/cn/edu/ahut/user/updateUser', {
+                AsyncPost('/api/v1/cn/edu/ahut/record/updateRecord', {
                     id: this.props.editMessage.id,
-                    userName: values.userName,
-                    userCode: values.userCode,
-                    departmentName: values.departmentName,
-                    role: values.role
+                    arriveTime: values.arriveTime.format('YYYY-MM-DD HH:mm:ss')
                 }, "post", (data) => {
                     if (data.code === 0) {
                         this.props.handleMessageOk();
@@ -96,26 +80,6 @@ class EditUser extends BaseComponent {
         };
         return (
             <Form onSubmit={this.handleSubmit} className={style.from_box}>
-                <FormItem
-                    {...formItemLayout}
-                    label="选择部门"
-                >
-                    {getFieldDecorator('departmentName', {
-                        rules: [
-                            {required: true, message: '请选择您的部门 !'},
-                        ],
-                    })(
-                        <Select initialValue={this.props.editMessage.departmentName} placeholder="请选择您的部门"  disabled>
-                            {
-                                this.state.data.get('departmentList').map((data, index) => {
-                                    return (
-                                        <Option key={data.id} value={data.departmentName}>{data.departmentName}</Option>
-                                    )
-                                })
-                            }
-                        </Select>
-                    )}
-                </FormItem>
                 <FormItem {...formItemLayout} label="员工姓名">
                     {getFieldDecorator('userName', {
                         rules: [{
@@ -124,31 +88,32 @@ class EditUser extends BaseComponent {
                             whitespace: true
                         }],
                     })(
-                        <Input placeholder="请输入员工姓名"/>
+                        <Input disabled={true} placeholder="请输入员工姓名"/>
                     )}
                 </FormItem>
-                <FormItem {...formItemLayout} label="员工编号">
-                    {getFieldDecorator('userCode', {
+                <FormItem {...formItemLayout} label="部门名称">
+                    {getFieldDecorator('departmentName', {
                         rules: [{
                             required: true,
-                            message: '请输入员工编号',
+                            message: '请输入部门名称',
                             whitespace: true
                         }]
                     })(
-                        <Input disabled={true} placeholder="请输入员工编号"/>
+                        <Input disabled={true} placeholder="请输入部门名称"/>
                     )}
                 </FormItem>
-                <FormItem {...formItemLayout} label="选择权限">
-                    {getFieldDecorator('role', {
+                <FormItem
+                    {...formItemLayout}
+                    label="签到时间"
+                >
+                    {getFieldDecorator('arriveTime', {
                         rules: [{
+                            type: 'object',
                             required: true,
-                            message: '请选择员工权限',
+                            message: '请选择时间!'
                         }]
                     })(
-                        <Select initialValue={this.props.editMessage.role} placeholder="请选择员工权限">
-                            <Option value="user">普通员工</Option>
-                            <Option value="admin">管理人员</Option>
-                        </Select>
+                        <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                     )}
                 </FormItem>
                 <FormItem>
@@ -159,4 +124,4 @@ class EditUser extends BaseComponent {
     }
 }
 
-export default Form.create()(EditUser);
+export default Form.create()(EditDepartment);

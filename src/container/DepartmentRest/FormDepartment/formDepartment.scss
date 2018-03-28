@@ -1,0 +1,14 @@
+
+
+.from_box{
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 100px;
+  :global(.ant-form-item-label){
+      text-align: left;
+  }
+  .submitbtnBox{
+    text-align: center;
+    padding-top: 100px;
+  }
+}

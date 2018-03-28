@@ -15,7 +15,6 @@ const confirm = Modal.confirm;
 import {AsyncPost} from 'Utils/utils'
 import style from './DepartmentList.scss'
 import EditDepartment from './EditDepartment/index.jsx'
-import * as apiConfig from 'Utils/apiConfig'
 
 class DepartmentList extends BaseComponent {
 
@@ -38,6 +37,13 @@ class DepartmentList extends BaseComponent {
         this.getdata()
     }
 
+    componentWillMount(){
+        this.mounted = true;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+    }
 
     getdata = (callback) => {
         this.setState({
@@ -55,10 +61,12 @@ class DepartmentList extends BaseComponent {
                         departmentName: data.departmentName,
                     })
                 });
-                this.setState({
-                    data: this.state.data.update('dataSource', () => arr)
-                        .update('tloading', () => false)
-                });
+                if(this.mounted){
+                    this.setState({
+                        data: this.state.data.update('dataSource', () => arr)
+                            .update('tloading', () => false)
+                    });
+                }
                 if (callback) {
                     callback()
                 }
@@ -67,7 +75,7 @@ class DepartmentList extends BaseComponent {
         })
     };
 
-    //删除User
+    //删除部门
     deleteUser = (id) => {
         AsyncPost('/api/v1/cn/edu/ahut/department/deleteDepartment', {
             id: id
@@ -136,16 +144,8 @@ class DepartmentList extends BaseComponent {
 
     render() {
 
-        const uploadButton = (
-            <div>
-                <Icon type={this.state.data.get('uploading') ? 'loading' : 'plus'}/>
-                <div className="ant-upload-text">Upload</div>
-            </div>
-        );
-
-
         const columns = [{
-            title: '编号',
+            title: '',
             dataIndex: 'index',
             key: 'index',
         }, {
@@ -175,11 +175,11 @@ class DepartmentList extends BaseComponent {
 
         return ([
             <h3 key="tittle" className={style.tittle}>部门列表</h3>,
-            <Table loading={this.state.data.get('tloading')} key="table" dataSource={this.state.data.get('dataSource')}
+            <Table loading={this.state.data.get('tloading')} pagination={{ pageSize: 11 }} key="table" dataSource={this.state.data.get('dataSource')}
                    columns={columns}/>,
             <Modal
                 visible={this.state.data.get('visible')}
-                title="修改员工信息"
+                title="修改部门信息"
                 onOk={this.handleMessageOk}
                 onCancel={this.handleMessageCancel}
                 key='Modal'

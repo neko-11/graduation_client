@@ -52,7 +52,7 @@ class StudentRest extends BaseComponent {
         }];
         return (
             <div>
-                <h3 className={style.tittle}>上传员工信息</h3>
+                <h3 className={style.tittle}>员工注册</h3>
                 <Steps current={current}>
                     {steps.map(item => <Step key={item.title} title={item.title} />)}
                 </Steps>

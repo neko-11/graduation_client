@@ -41,6 +41,13 @@ class userList extends BaseComponent {
         this.getdata()
     }
 
+    componentWillMount(){
+        this.mounted = true;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+    }
 
     getdata = (callback) => {
         this.setState({
@@ -65,10 +72,12 @@ class userList extends BaseComponent {
                         role: data.role
                     })
                 });
-                this.setState({
-                    data: this.state.data.update('dataSource', () => arr)
-                        .update('tloading', () => false)
-                });
+                if(this.mounted){
+                    this.setState({
+                        data: this.state.data.update('dataSource', () => arr)
+                            .update('tloading', () => false)
+                    });
+                }
                 if (callback) {
                     callback()
                 }
@@ -293,7 +302,7 @@ class userList extends BaseComponent {
 
         return ([
             <h3 key="tittle" className={style.tittle}>员工列表</h3>,
-            <Table loading={this.state.data.get('tloading')} key="table" dataSource={this.state.data.get('dataSource')}
+            <Table loading={this.state.data.get('tloading')} pagination={{ pageSize: 11 }} key="table" dataSource={this.state.data.get('dataSource')}
                    columns={columns}/>,
             <Modal
                 visible={this.state.data.get('visible')}

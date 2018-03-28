@@ -52,10 +52,10 @@ class stepOne extends BaseComponent {
             };
             if (!err) {
                 AsyncPost('/api/v1/cn/edu/ahut/user/saveUser', para, 'post', (data) => {
-                    if(data.code == 0){
+                    if (data.code === 0) {
                         this.props.dispatch(change(data.result));
                         this.props.next()
-                    }else{
+                    } else {
                         message.warning(data.message);
                     }
                 });
@@ -84,9 +84,10 @@ class stepOne extends BaseComponent {
                             label="选择部门"
                         >
                             {getFieldDecorator('departmentName', {
-                                rules: [
-                                    {required: true, message: '请选择所属部门 !'},
-                                ],
+                                rules: [{
+                                    required: true,
+                                    message: '请选择所属部门 !'
+                                }]
                             })(
                                 <Select placeholder="请选择所属部门">
                                     {
@@ -106,7 +107,7 @@ class stepOne extends BaseComponent {
                                     required: true,
                                     message: '请输入员工姓名',
                                     whitespace: true
-                                }],
+                                }]
                             })(
                                 <Input placeholder="请输入员工姓名"/>
                             )}
