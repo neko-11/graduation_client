@@ -1,19 +1,18 @@
 import React from 'react';
 import {Map} from 'immutable';
-import {Layout, Breadcrumb} from 'antd';
-
-const {Content, Sider} = Layout;
+import {Breadcrumb, Dropdown, Icon, Layout, Menu} from 'antd';
 import BaseComponent from 'Utils/BaseComponent.jsx'
 import style from './home.scss'
 import Foot from 'PubCom/footer'
-import {Menu, Dropdown, Icon} from 'antd';
 import LeftMenu from 'PubCom/LeftMenu'
-import {Route, Link} from 'react-router-dom'
+import {Link, Route} from 'react-router-dom'
 import {AsyncComponent} from 'Utils/asyncComponent.jsx'
 import {AsyncPost} from 'Utils/utils'
 import SwitchCSSTransitionGroup from 'switch-css-transition-group'
 import leftconfig1 from 'Config/leftnav1'
 import leftconfig2 from 'Config/leftnav2'
+
+const {Content, Sider} = Layout;
 
 class Home extends BaseComponent {
 
@@ -27,19 +26,19 @@ class Home extends BaseComponent {
         }
     }
 
-    componentWillMount () {
-        if(sessionStorage.getItem('role') === 'admin'){
+    componentWillMount() {
+        if (sessionStorage.getItem('role') === 'admin') {
             this.setState({
                 leftConfig: leftconfig1
             })
-        }else{
+        } else {
             this.setState({
                 leftConfig: leftconfig2
             })
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
     }
 
     onCollapse = (collapsed) => {
@@ -65,7 +64,7 @@ class Home extends BaseComponent {
             if (data.child) {
                 data.child.map((cdata, cindex) => {
                     /*if (cindex !== 0) {*/
-                        breadcrumbNameMap[cdata.path] = cdata.name;
+                    breadcrumbNameMap[cdata.path] = cdata.name;
                     /*}*/
                 })
             }

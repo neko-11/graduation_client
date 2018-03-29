@@ -9,12 +9,12 @@
 import React from 'react';
 import {Map} from 'immutable';
 import BaseComponent from 'Utils/BaseComponent.jsx'
-import {Select, Form, Input, DatePicker, TimePicker, Icon, message, Button} from 'antd';
+import {Button, DatePicker, Form, Input} from 'antd';
 import moment from 'moment';
-
-const FormItem = Form.Item;
 import style from './EditRecord.scss'
 import {AsyncPost} from 'Utils/utils'
+
+const FormItem = Form.Item;
 
 class EditDepartment extends BaseComponent {
 
@@ -113,7 +113,7 @@ class EditDepartment extends BaseComponent {
                             message: '请选择时间!'
                         }]
                     })(
-                        <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                        <DatePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                     )}
                 </FormItem>
                 <FormItem>

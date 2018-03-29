@@ -9,7 +9,7 @@
 import React from 'react';
 import BaseComponent from 'Utils/BaseComponent.jsx'
 import style from './isLogin.scss'
-import { Spin } from 'antd';
+import {Spin} from 'antd';
 
 class isLogin extends BaseComponent {
 
@@ -17,12 +17,12 @@ class isLogin extends BaseComponent {
         super(props);
     }
 
-    componentDidMount(){
-        if (sessionStorage.getItem("userName") && sessionStorage.getItem("role") === 'admin'){
+    componentDidMount() {
+        if (sessionStorage.getItem("userName") && sessionStorage.getItem("role") === 'admin') {
             this.props.history.replace('/home/RecordList')
-        }else if(sessionStorage.getItem("userName") && sessionStorage.getItem("role") === 'user'){
+        } else if (sessionStorage.getItem("userName") && sessionStorage.getItem("role") === 'user') {
             this.props.history.replace('/home/UserCenter')
-        }else{
+        } else {
             this.props.history.replace('/login')
         }
 

@@ -9,13 +9,13 @@
 import React from 'react';
 import {Map} from 'immutable';
 import BaseComponent from 'Utils/BaseComponent.jsx'
-import {Table, Icon, Divider, Modal, message, Button, Spin, Upload} from 'antd'
-
-const confirm = Modal.confirm;
+import {Button, Divider, Icon, message, Modal, Spin, Table, Upload} from 'antd'
 import {AsyncPost} from 'Utils/utils'
 import style from './userList.scss'
 import EditUser from './EditUser/index.jsx'
 import * as apiConfig from 'Utils/apiConfig'
+
+const confirm = Modal.confirm;
 
 class userList extends BaseComponent {
 
@@ -41,7 +41,7 @@ class userList extends BaseComponent {
         this.getdata()
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.mounted = true;
     }
 
@@ -72,7 +72,7 @@ class userList extends BaseComponent {
                         role: data.role
                     })
                 });
-                if(this.mounted){
+                if (this.mounted) {
                     this.setState({
                         data: this.state.data.update('dataSource', () => arr)
                             .update('tloading', () => false)
@@ -304,7 +304,8 @@ class userList extends BaseComponent {
 
         return ([
             <h3 key="tittle" className={style.tittle}>员工列表</h3>,
-            <Table loading={this.state.data.get('tloading')} pagination={{ pageSize: 11 }} key="table" dataSource={this.state.data.get('dataSource')}
+            <Table loading={this.state.data.get('tloading')} pagination={{pageSize: 11}} key="table"
+                   dataSource={this.state.data.get('dataSource')}
                    columns={columns}/>,
             <Modal
                 visible={this.state.data.get('visible')}

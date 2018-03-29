@@ -9,11 +9,11 @@
 import React from 'react';
 import {Map} from 'immutable';
 import BaseComponent from 'Utils/BaseComponent.jsx'
-import {Form, Input, Icon, message, Button} from 'antd';
-
-const FormItem = Form.Item;
+import {Button, Form, Input} from 'antd';
 import style from './EditDepartment.scss'
 import {AsyncPost} from 'Utils/utils'
+
+const FormItem = Form.Item;
 
 
 class EditDepartment extends BaseComponent {
@@ -32,6 +32,7 @@ class EditDepartment extends BaseComponent {
             this.initFrom(nextProps.editMessage)
         }
     }
+
 
     componentDidMount() {
         this.initFrom(this.props.editMessage)

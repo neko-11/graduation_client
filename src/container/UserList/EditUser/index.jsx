@@ -9,11 +9,11 @@
 import React from 'react';
 import {Map} from 'immutable';
 import BaseComponent from 'Utils/BaseComponent.jsx'
-import {Select, Form, Input, Icon, message, Button} from 'antd';
-
-const FormItem = Form.Item;
+import {Button, Form, Input, Select} from 'antd';
 import style from './EditUser.scss'
 import {AsyncPost} from 'Utils/utils'
+
+const FormItem = Form.Item;
 
 const Option = Select.Option;
 
@@ -105,7 +105,7 @@ class EditUser extends BaseComponent {
                             {required: true, message: '请选择您的部门 !'},
                         ],
                     })(
-                        <Select initialValue={this.props.editMessage.departmentName} placeholder="请选择您的部门"  disabled>
+                        <Select initialValue={this.props.editMessage.departmentName} placeholder="请选择您的部门" disabled>
                             {
                                 this.state.data.get('departmentList').map((data, index) => {
                                     return (

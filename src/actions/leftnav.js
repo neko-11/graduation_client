@@ -27,6 +27,3 @@ export const changeResult =  (state = initialState, action) => {
             return state;
     }
 };
-
-
-

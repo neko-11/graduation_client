@@ -9,14 +9,14 @@
 import React, {Component} from 'react';
 import BaseComponent from 'Utils/BaseComponent.jsx'
 import style from './stepOne.scss'
-import {Form, Select, Input, Button, Upload, Icon, message} from 'antd';
+import {Button, Form, Input, message, Select} from 'antd';
 import {Map} from 'immutable'
-
-const FormItem = Form.Item;
-const Option = Select.Option;
 import {AsyncPost} from 'Utils/utils'
 import {change} from 'RAndA/UserId'
 import {connect} from 'react-redux';
+
+const FormItem = Form.Item;
+const Option = Select.Option;
 
 class stepOne extends BaseComponent {
 
@@ -29,10 +29,18 @@ class stepOne extends BaseComponent {
         }
     }
 
+    //防止setState发生在组建移除之后
+    componentWillMount() {
+        this.mounted = true;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+    }
 
     componentDidMount() {
         AsyncPost('/api/v1/cn/edu/ahut/department/listAll', {}, "get", (data) => {
-            if (data.code === 0) {
+            if (data.code === 0 && this.mounted) {
                 this.setState({
                     data: this.state.data.update('departmentList', () => data.result)
                 });

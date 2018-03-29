@@ -9,12 +9,12 @@
 import React from 'react';
 import {Map} from 'immutable';
 import BaseComponent from 'Utils/BaseComponent.jsx'
-import {Table, Icon, Divider, Modal, message, Button, Spin, Upload} from 'antd'
-
-const confirm = Modal.confirm;
+import {Button, Divider, Icon, message, Modal, Spin, Table} from 'antd'
 import {AsyncPost} from 'Utils/utils'
 import style from './DepartmentList.scss'
 import EditDepartment from './EditDepartment/index.jsx'
+
+const confirm = Modal.confirm;
 
 class DepartmentList extends BaseComponent {
 
@@ -37,7 +37,8 @@ class DepartmentList extends BaseComponent {
         this.getdata()
     }
 
-    componentWillMount(){
+    //防止setState发生在组建移除之后
+    componentWillMount() {
         this.mounted = true;
     }
 
@@ -50,7 +51,7 @@ class DepartmentList extends BaseComponent {
             data: this.state.data.update('tloading', () => true)
         });
         AsyncPost('/api/v1/cn/edu/ahut/department/listAll', {}, 'get', (data) => {
-            if (data.code === 0) {
+            if (data.code === 0 && this.mounted) {
                 let arr = [];
                 data.result.map((data, index) => {
                     arr.push({
@@ -61,12 +62,10 @@ class DepartmentList extends BaseComponent {
                         departmentName: data.departmentName,
                     })
                 });
-                if(this.mounted){
-                    this.setState({
-                        data: this.state.data.update('dataSource', () => arr)
-                            .update('tloading', () => false)
-                    });
-                }
+                this.setState({
+                    data: this.state.data.update('dataSource', () => arr)
+                        .update('tloading', () => false)
+                });
                 if (callback) {
                     callback()
                 }
@@ -175,7 +174,8 @@ class DepartmentList extends BaseComponent {
 
         return ([
             <h3 key="tittle" className={style.tittle}>部门列表</h3>,
-            <Table loading={this.state.data.get('tloading')} pagination={{ pageSize: 11 }} key="table" dataSource={this.state.data.get('dataSource')}
+            <Table loading={this.state.data.get('tloading')} pagination={{pageSize: 11}} key="table"
+                   dataSource={this.state.data.get('dataSource')}
                    columns={columns}/>,
             <Modal
                 visible={this.state.data.get('visible')}
@@ -191,7 +191,8 @@ class DepartmentList extends BaseComponent {
                 ]}
             >
                 <Spin tip="Loading..." spinning={this.state.data.get('spin')}>
-                    <EditDepartment editMessage={this.state.data.get('editMessage')} handleMessageOk={this.handleMessageOk}/>
+                    <EditDepartment editMessage={this.state.data.get('editMessage')}
+                                    handleMessageOk={this.handleMessageOk}/>
                 </Spin>
             </Modal>
         ])

@@ -9,14 +9,15 @@
 import React from 'react';
 import {Map} from 'immutable';
 import BaseComponent from 'Utils/BaseComponent.jsx'
-import {Form, Select, Row, Col, Input, Table, Icon, Divider, Modal, message, Button, Spin, DatePicker} from 'antd'
-
-const Option = Select.Option;
-const FormItem = Form.Item;
-const confirm = Modal.confirm;
+import {Button, Col, DatePicker, Divider, Form, Icon, Input, message, Modal, Row, Select, Spin, Table} from 'antd'
 import {AsyncPost} from 'Utils/utils'
 import style from './RecordList.scss'
 import EditRecord from './EditRecord/index.jsx'
+
+const {RangePicker} = DatePicker;
+const Option = Select.Option;
+const FormItem = Form.Item;
+const confirm = Modal.confirm;
 
 class DepartmentList extends BaseComponent {
 
@@ -47,7 +48,7 @@ class DepartmentList extends BaseComponent {
         })
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.mounted = true;
     }
 
@@ -74,7 +75,7 @@ class DepartmentList extends BaseComponent {
                         arriveTime: data.arriveTime
                     })
                 });
-                if(this.mounted){
+                if (this.mounted) {
                     this.setState({
                         data: this.state.data.update('dataSource', () => arr)
                             .update('tloading', () => false)
@@ -161,12 +162,14 @@ class DepartmentList extends BaseComponent {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 let para = {};
-                if( values.userName !== undefined && values.userName !== null && values.userName !== '')
+                if (values.userName !== undefined && values.userName !== null && values.userName !== '')
                     para.userName = values.userName;
-                if( values.departmentName !== undefined && values.departmentName !== null && values.departmentName !== '')
+                if (values.departmentName !== undefined && values.departmentName !== null && values.departmentName !== '')
                     para.departmentName = values.departmentName;
-                if( values.arriveTime !== undefined && values.arriveTime !== null)
-                    para.arriveTime = values.arriveTime.format('YYYY-MM-DD');
+                if (values.arriveTime !== undefined && values.arriveTime.length !== 0) {
+                    para.startTime = values.arriveTime[0].format('YYYY-MM-DD');
+                    para.endTime = values.arriveTime[1].format('YYYY-MM-DD');
+                }
                 AsyncPost('/api/v1/cn/edu/ahut/record/listRecord', para, "post", (data) => {
                     if (data.code === 0) {
                         let arr = [];
@@ -181,13 +184,13 @@ class DepartmentList extends BaseComponent {
                                 arriveTime: data.arriveTime
                             })
                         });
-                        if(this.mounted){
+                        if (this.mounted) {
                             this.setState({
                                 data: this.state.data.update('dataSource', () => arr)
                                     .update('tloading', () => false)
                             });
                         }
-                    }else{
+                    } else {
                         message.error("发生错误");
                     }
                 });
@@ -236,79 +239,79 @@ class DepartmentList extends BaseComponent {
         const {getFieldDecorator} = this.props.form;
 
         return ([
-            <h3 key="tittle" className={style.tittle}>记录列表</h3>,
-            <Form key="form" onSubmit={this.handleSubmit}>
-                <Row>
-                    <Col span={4} key={1} style={{ textAlign: 'center',padding: '0 2em' }} >
-                        <FormItem>
-                            {getFieldDecorator('userName', {
-                                rules: [{
-                                    whitespace: true
-                                }],
-                            })(
-                                <Input placeholder="请输入员工姓名"/>
-                            )}
-                        </FormItem>
-                    </Col>
-                    <Col span={4} key={2} style={{ textAlign: 'center',padding: '0 2em' }}>
-                        <FormItem>
-                            {getFieldDecorator('departmentName', {})(
-                                <Select allowClear={true} placeholder="请选择部门">
-                                    {
-                                        this.state.data.get('departmentList').map((data, index) => {
-                                            return (
-                                                <Option key={data.id}
-                                                        value={data.departmentName}>{data.departmentName}</Option>
-                                            )
-                                        })
-                                    }
-                                </Select>
-                            )}
-                        </FormItem>
-                    </Col>
-                    <Col span={4} key={3} style={{ textAlign: 'center',padding: '0 2em' }}>
-                        <FormItem>
-                            {getFieldDecorator('arriveTime', {
-                                rules: [{ type: 'object'}],
-                            })(
-                                <DatePicker placeholder='请选择日期' />
-                            )}
-                        </FormItem>
-                    </Col>
-                    <Col span={3} key={4} style={{ textAlign: 'center' }}>
-                        <FormItem>
-                            <Button type="primary" htmlType="submit">搜索</Button>
-                        </FormItem>
-                    </Col>
-                </Row>
-            </Form>
-    ,
-        <Table loading={this.state.data.get('tloading')} pagination={{pageSize: 10}} key="table"
-               dataSource={this.state.data.get('dataSource')}
-               columns={columns}/>
-    ,
-        <Modal
-            visible={this.state.data.get('visible')}
-            title="修改签到信息"
-            onOk={this.handleMessageOk}
-            onCancel={this.handleMessageCancel}
-            key='Modal'
-            footer={[
-                <Button key="back" onClick={this.handleMessageCancel}>取消</Button>,
-                <Button key="submit" type="primary" style={{visibility: 'hidden'}}>
-                    修改
-                </Button>
-            ]}
-        >
-            <Spin tip="Loading..." spinning={this.state.data.get('spin')}>
-                <EditRecord editMessage={this.state.data.get('editMessage')}
-                            handleMessageOk={this.handleMessageOk}/>
-            </Spin>
-        </Modal>
-    ]
-    )
+                <h3 key="tittle" className={style.tittle}>记录列表</h3>,
+                <Form key="form" onSubmit={this.handleSubmit}>
+                    <Row>
+                        <Col span={4} key={1} style={{textAlign: 'center', padding: '0 2em'}}>
+                            <FormItem>
+                                {getFieldDecorator('userName', {
+                                    rules: [{
+                                        whitespace: true
+                                    }],
+                                })(
+                                    <Input placeholder="请输入员工姓名"/>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={4} key={2} style={{textAlign: 'center', padding: '0 2em'}}>
+                            <FormItem>
+                                {getFieldDecorator('departmentName', {})(
+                                    <Select allowClear={true} placeholder="请选择部门">
+                                        {
+                                            this.state.data.get('departmentList').map((data, index) => {
+                                                return (
+                                                    <Option key={data.id}
+                                                            value={data.departmentName}>{data.departmentName}</Option>
+                                                )
+                                            })
+                                        }
+                                    </Select>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={7} key={3} style={{textAlign: 'center', padding: '0 2em'}}>
+                            <FormItem>
+                                {getFieldDecorator('arriveTime', {
+                                    rules: [{type: 'array'}],
+                                })(
+                                    <RangePicker placeholder={['起始日期','结束日期']}/>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={3} key={4} style={{textAlign: 'center'}}>
+                            <FormItem>
+                                <Button type="primary" htmlType="submit">搜索</Button>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                </Form>
+                ,
+                <Table loading={this.state.data.get('tloading')} pagination={{pageSize: 10}} key="table"
+                       dataSource={this.state.data.get('dataSource')}
+                       columns={columns}/>
+                ,
+                <Modal
+                    visible={this.state.data.get('visible')}
+                    title="修改签到信息"
+                    onOk={this.handleMessageOk}
+                    onCancel={this.handleMessageCancel}
+                    key='Modal'
+                    footer={[
+                        <Button key="back" onClick={this.handleMessageCancel}>取消</Button>,
+                        <Button key="submit" type="primary" style={{visibility: 'hidden'}}>
+                            修改
+                        </Button>
+                    ]}
+                >
+                    <Spin tip="Loading..." spinning={this.state.data.get('spin')}>
+                        <EditRecord editMessage={this.state.data.get('editMessage')}
+                                    handleMessageOk={this.handleMessageOk}/>
+                    </Spin>
+                </Modal>
+            ]
+        )
 
     }
-    }
+}
 
-    export default Form.create()(DepartmentList);
+export default Form.create()(DepartmentList);

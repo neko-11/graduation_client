@@ -9,11 +9,11 @@
 import React, {Component} from 'react';
 import BaseComponent from 'Utils/BaseComponent.jsx'
 import style from './formDepartment.scss'
-import {Form, Input, Button, Upload, Icon, message} from 'antd';
+import {Button, Form, Input, message} from 'antd';
 import {Map} from 'immutable'
+import {AsyncPost} from 'Utils/utils'
 
 const FormItem = Form.Item;
-import {AsyncPost} from 'Utils/utils'
 
 class DepartmentRest extends BaseComponent {
 
@@ -50,7 +50,7 @@ class DepartmentRest extends BaseComponent {
     };
 
     render() {
-        const { getFieldDecorator } = this.props.form;
+        const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
             labelCol: {
                 xs: {span: 24},
