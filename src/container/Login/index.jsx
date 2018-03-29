@@ -184,7 +184,8 @@ class Login extends Component {
             data = JSON.parse(data);
             if (data.code === 0 ){
                 message.success('登录成功！');
-                sessionStorage.setItem("userName", data.result);
+                sessionStorage.setItem("userName", data.result.userName);
+                sessionStorage.setItem("role", data.result.role);
                 //关闭摄像头
                 this.state.stream.getTracks()[0].stop();
                 this.props.history.replace('/isLogin');

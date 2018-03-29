@@ -12,23 +12,34 @@ import {Route, Link} from 'react-router-dom'
 import {AsyncComponent} from 'Utils/asyncComponent.jsx'
 import {AsyncPost} from 'Utils/utils'
 import SwitchCSSTransitionGroup from 'switch-css-transition-group'
-import leftconfig from 'Config/leftnav'
+import leftconfig1 from 'Config/leftnav1'
+import leftconfig2 from 'Config/leftnav2'
 
 class Home extends BaseComponent {
 
     constructor(props) {
         super(props);
         this.state = {
+            leftConfig: {},
             data: Map({
                 collapsed: false
             })
         }
     }
 
-    componentDidMount() {
-        // AsyncPost('/login',{},(data)=>{
-        //     console.log(data);
-        // })
+    componentWillMount () {
+        if(sessionStorage.getItem('role') === 'admin'){
+            this.setState({
+                leftConfig: leftconfig1
+            })
+        }else{
+            this.setState({
+                leftConfig: leftconfig2
+            })
+        }
+    }
+
+    componentDidMount(){
     }
 
     onCollapse = (collapsed) => {
@@ -47,7 +58,7 @@ class Home extends BaseComponent {
     render() {
         //面包屑逻辑
         const breadcrumbNameMap = {};
-        leftconfig.map((data, index) => {
+        this.state.leftConfig.map((data, index) => {
             if (index !== 0) {
                 breadcrumbNameMap[data.path] = data.name;
             }
@@ -131,7 +142,7 @@ class Home extends BaseComponent {
                                 transitionEnterTimeout={500}
                             >
                                 {
-                                    leftconfig.map((data, index) => {
+                                    this.state.leftConfig.map((data, index) => {
                                         return (
                                             data.child ?
                                                 data.child.map((cdata, cindex) => {

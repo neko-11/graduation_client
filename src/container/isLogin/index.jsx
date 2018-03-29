@@ -18,8 +18,10 @@ class isLogin extends BaseComponent {
     }
 
     componentDidMount(){
-        if (sessionStorage.getItem("userName")){
+        if (sessionStorage.getItem("userName") && sessionStorage.getItem("role") === 'admin'){
             this.props.history.replace('/home/RecordList')
+        }else if(sessionStorage.getItem("userName") && sessionStorage.getItem("role") === 'user'){
+            this.props.history.replace('/home/UserCenter')
         }else{
             this.props.history.replace('/login')
         }

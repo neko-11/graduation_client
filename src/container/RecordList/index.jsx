@@ -209,6 +209,7 @@ class DepartmentList extends BaseComponent {
             title: '工号',
             dataIndex: 'userCode',
             key: 'userCode',
+            sorter: (a, b) => b.userCode - a.userCode,
         }, {
             title: '部门',
             dataIndex: 'departmentName',
