@@ -212,9 +212,13 @@ class Login extends Component {
                                 <div className={style.img_wrap}>
                                     <img src={require('./img/logo.png')} className={style.img_width}/>
                                 </div>
-                                <video id="video" width="400" height="300"></video>
-                                <Button onClick={this.saveImg}>拍照</Button>
-                                <canvas id='canvas' width='400' height='300'></canvas>
+                                <video id="video" width='400' height="300"></video>
+                                <Row>
+                                    <Col span={24} style={{textAlign: 'right'}}>
+                                        <Button type="primary" onClick={this.saveImg}>登陆</Button>
+                                    </Col>
+                                </Row>
+                                <canvas id='canvas' width='400' height="300"></canvas>
                                 {/* <img id='img' src=''></img> */}
                             </div>
                         </Col>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 //引入login的头部
 //import LoginHeader from 'PubComponents/loginHeader'
-import {Button, Col, Form, Row} from 'antd';
+import {message, Button, Col, Form, Row} from 'antd';
 import {Link, withRouter} from 'react-router-dom'
 import {Map} from 'immutable';
 //引入组件sass
@@ -175,7 +175,9 @@ class Sign extends Component {
             data = JSON.parse(data);
             console.log(data);
             if (data.code === 0) {
-
+                data.result.map((data, index) => {
+                    message.success(data.userName + "签到成功  时间：" + data.arriveTime)
+                });
             } else if (data.code === 1) {
 
             }
@@ -197,7 +199,11 @@ class Sign extends Component {
                                     <img src={require('./img/logo.png')} className={style.img_width}/>
                                 </div>
                                 <video id="video" width="400" height="300"></video>
-                                <Button onClick={this.saveImg}>拍照</Button>
+                                <Row>
+                                    <Col span={24} style={{textAlign: 'right'}}>
+                                        <Button type="primary" onClick={this.saveImg}>签到</Button>
+                                    </Col>
+                                </Row>
                                 <canvas id='canvas' width='400' height='300'></canvas>
                             </div>
                         </Col>
