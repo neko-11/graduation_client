@@ -179,7 +179,7 @@ class Sign extends Component {
                     message.success(data.userName + "签到成功  时间：" + data.arriveTime)
                 });
             } else if (data.code === 1) {
-
+                message.warning("签到失败")
             }
         });
     };
