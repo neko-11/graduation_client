@@ -1,5 +1,5 @@
 /**
- * Created by 70469 on 2017/12/22.
+ * Created by zhushuangfei on 2018/3/22.
  * 左侧导航配置
  */
 const leftconfig = [
