@@ -15,7 +15,7 @@ const leftconfig2 = [
             }, {
                 path: '/home/UserRecord',
                 component: 'UserRecord',
-                name: '签到记录',
+                name: '考勤记录',
                 Icon: "profile"
             }
         ]

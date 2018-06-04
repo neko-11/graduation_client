@@ -156,7 +156,6 @@ class Home extends BaseComponent {
                                         )
                                     })
                                 }
-
                             </SwitchCSSTransitionGroup>
                         </div>
                     </Content>

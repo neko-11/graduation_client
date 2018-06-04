@@ -185,7 +185,7 @@ class Login extends Component {
         ajax_method('/api/v1/cn/edu/ahut/user/login', formData, 'post', (data) => {
             data = JSON.parse(data);
             if (data.code === 0) {
-                message.success('登录成功！');
+                message.success('登陆成功！');
                 sessionStorage.setItem("userName", data.result.userName);
                 sessionStorage.setItem("role", data.result.role);
                 sessionStorage.setItem("id", data.result.id);
@@ -193,7 +193,7 @@ class Login extends Component {
                 this.state.stream.getTracks()[0].stop();
                 this.props.history.replace('/isLogin');
             } else if (data.code === 1) {
-                message.warning(data.message);
+                message.warning("登陆失败");
             }
         });
     };

@@ -64,7 +64,7 @@ class DepartmentRest extends BaseComponent {
                         {getFieldDecorator('departmentName', {
                             rules: [{
                                 required: true,
-                                message: '请输入部门名称 !',
+                                message: '请输入部门名称',
                                 whitespace: true
                             }],
                         })(
