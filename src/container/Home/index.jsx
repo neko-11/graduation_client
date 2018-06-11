@@ -90,7 +90,7 @@ class Home extends BaseComponent {
         const menu = (
             <Menu>
                 <Menu.Item>
-                    <a target="_blank" rel="noopener noreferrer" onClick={this.clearUserName}>退出登陆</a>
+                    <a target="_blank" rel="noopener noreferrer" onClick={this.clearUserName}>退出登录</a>
                 </Menu.Item>
             </Menu>
         );
